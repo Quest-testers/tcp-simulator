@@ -27,11 +27,15 @@ jobs:
   
     #    python -m unittest discover
 
-    - name: Publish to AWS CodeArtifact
+    - name: Package and upload to CodeArtifact
       env:
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       run: |
-          aws codeartifact login --tool npm --domain ${{ secrets.AWS_CODEARTIFACT_DOMAIN }} --domain-owner ${{ secrets.AWS_CODEARTIFACT_DOMAIN_OWNER }} --repository ${{ secrets.AWS_CODEARTIFACT_REPOSITORY }}
-          npm publish 
+        pip install awscli
+        aws codeartifact login --tool pip --repository poc --domain questpoc --domain-owner 851725253190 --region ap-south-1
+        python setup.py sdist bdist_wheel
+        pip install twine
+        twine upload --repository codeartifact dist/*
+
