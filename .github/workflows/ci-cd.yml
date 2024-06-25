@@ -24,7 +24,7 @@ jobs:
 
     - name: Run tests
       run: |
-        # Add your test commands here
+  
         python -m unittest discover
 
     - name: Package and upload to CodeArtifact
