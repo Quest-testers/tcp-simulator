@@ -34,7 +34,7 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       run: |
         pip install awscli
-        aws codeartifact login --tool pip --repository your-repo --domain your-domain
+        aws codeartifact login --tool pip --repository poc --domain questpoc --domain-owner 851725253190 --region ap-south-1
         python setup.py sdist bdist_wheel
         pip install twine
         twine upload --repository codeartifact dist/*
