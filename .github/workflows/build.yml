@@ -42,12 +42,12 @@ jobs:
       #  export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain questpoc --domain-owner 851725253190 --query authorizationtoken --output text)
       #   echo "::set-output name=token::$CODEARTIFACT_AUTH_TOKEN
       - name: Login to AWS CodeArtifact
-        run: aws codeartifact login --tool twine --domain questpoc --domain-owner 851725253190 --repository poc --region ap-south-1
+        run: aws codeartifact login --tool pip --domain questpoc --domain-owner 851725253190 --repository poc --region ap-south-1
  
       - name: Build and publish package 
         run: | 
            python setup.py sdist bdist_wheel 
-           python -m twine upload --repository poc dist/*
+           python -m pip upload --repository poc dist/*
        # env: 
        #  TWINE_USERNAME: __token__ 
        #  TWINE_PASSWORD: ${{ steps.codeartifact-token.outputs.token }}
