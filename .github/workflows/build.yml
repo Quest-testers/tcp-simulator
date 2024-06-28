@@ -1,0 +1,40 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12.3'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      #- name: Run tests (if applicable)
+      #  run: |
+      #   pytest
+
+      - name: Package application
+        run: |
+          python setup.py sdist bdist_wheel
+
+      - name: Publish to CodeArtifact
+        run: |
+          pip install awscli
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+          aws codeartifact login --tool pip --repository poc --domain questpoc --domain-owner 851725253190 --region ap-south-1
+          python -m twine upload --repository your_repository dist/*
