@@ -32,9 +32,6 @@ jobs:
 
       - name: Publish to CodeArtifact
         run: |
-          pip install awscliv2
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set region ${{ secrets.AWS_REGION }}
+     
           aws codeartifact login --tool pip --repository poc --domain questpoc --domain-owner 851725253190 --region ap-south-1
           python -m twine upload --repository poc dist/*
