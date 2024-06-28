@@ -26,8 +26,8 @@ jobs:
       #  run: |
       #   pytest
 
-      - name: Package application
-        run: |
+      # - name: Package application
+      # run: |
       #    python setup.py sdist bdist_wheel
 
       - name: Publish to CodeArtifact
@@ -37,4 +37,4 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region ${{ secrets.AWS_REGION }}
           aws codeartifact login --tool pip --repository poc --domain questpoc --domain-owner 851725253190 --region ap-south-1
-          python -m twine upload --repository your_repository dist/*
+          python -m twine upload --repository poc dist/*
