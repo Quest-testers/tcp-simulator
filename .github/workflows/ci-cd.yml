@@ -37,3 +37,4 @@ jobs:
         aws codeartifact login --tool pip --repository poc --domain questpoc --domain-owner 851725253190 --region ap-south-1
         pip install twine
         twine upload --repository codeartifact dist/*
+
